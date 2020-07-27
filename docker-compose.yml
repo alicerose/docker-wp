@@ -30,7 +30,6 @@ services:
        - ./.data/log/:/var/log/apache2/
        - ./www/:/var/www/html/
        - ./my-theme/:/var/www/html/wp-content/themes/my-theme/
-       - ./plugins/:/var/www/html/wp-content/plugins/
        - ./.htaccess:/var/www/html/.htaccess
 
   phpmyadmin:
