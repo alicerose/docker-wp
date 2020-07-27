@@ -34,15 +34,13 @@ nbproject/*
 
 # My application files
 
+# node
+node_modules
 
 # docker data
 .data
 
 # WP Core files
-www/wp-*.php
-!www/wp-config.php
-www/wp-admin/
-www/wp-includes/
-www/wp-content/languages/
-www/wp-content/themes/twenty*
-www/wp-content/upgrades/
+plugins/hello.php
+plugins/akismet/
+.www/*
