@@ -43,3 +43,5 @@ node_modules
 # WP Core files
 plugins/hello.php
 plugins/akismet/
+www/*
+!www/wp-config.php
