@@ -1,9 +1,5 @@
 FROM wordpress:latest
 
-COPY bin /usr/local/bin
-
-RUN sh /usr/local/bin/install.sh
-
 RUN curl --location --output /usr/local/bin/mhsendmail https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 && \
     chmod +x /usr/local/bin/mhsendmail
 
