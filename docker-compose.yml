@@ -31,6 +31,7 @@ services:
        - ./.www/:/var/www/html/
        - ./my-theme/:/var/www/html/wp-content/themes/my-theme/
        - ./.htaccess:/var/www/html/.htaccess
+       - ./bin:/var/www/bin
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
