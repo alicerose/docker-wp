@@ -1,13 +1,38 @@
 # Wordpress用docker
 
 * テーマファイル郡だけgit管理したいDockerを作る
+* テーマディレクトリのみマウントしてgit管理
+    * プラグインやコアファイルはgit管理から外してます
 
 ## 必要なもの
 
 * `Docker`
     * https://www.docker.com/
     * `Docker Desktop`を推奨
-    * インストールが完了しており、`docker version`でバージョン情報が取得出来る状態にあること 
+    * インストールが完了しており、`docker version`でバージョン情報が取得出来る状態にあること
+* 'Node.js'
+    * https://nodejs.org/ja/
+    * Nodist(Windows)、nodenv(Mac)推奨
+        * https://qiita.com/satoyan419/items/56e0b5f35912b9374305
+        * https://qiita.com/alice37th/items/989af6749264de50bb85
+
+## ディレクトリ構造
+
+```
+.
+├── .data // dockerが利用するDBのデータやログ（自動生成、gitignore対象）
+├── .www // wordpressコンテナで生成されたhtdocs配下（自動生成、gitignore対象）
+├── bin // シェルファイルの格納
+├── docker // Dockerの構成ファイル
+│   ├── images
+│   └── wordpress
+├── my-theme // テーマディレクトリ
+│   └── assets // コンパイルされたアセット格納ディレクトリ（自動生成、gitignore対象）
+├── node_modules // Nodeパッケージ（自動生成、gitignore対象）
+└── src // ソースディレクトリ
+    ├── scss // scssソース
+    └── webpack // jsソース
+```
 
 ## 初期設定
 
@@ -29,9 +54,12 @@
         * シェルは`/bin/install.sh`がコピーされているもの
         * `WP-CLI`のインストール、デフォルトプラグインのインストール・有効化、テーマの有効化が行われる
 
-## install.sh
+## 初期設定シェルの実行
 
-* WP-CLIをインストールして、初期設定ぽいことをする
+* プラグインやパーマリンクの設定など、なるべく人の手を介さずに自動化させたい
+* WP-CLIをインストールして、出来うる設定はなるべくCLIにやらせる
+* WP-CLIはDockerのコンテナ内でインストール・実行している
+* シェルファイルはwordpressコンテナにマウントされる
 * 以下のプラグインをインストールし、有効化する
     * classic-editor
     * advanced-custom-fields
@@ -55,6 +83,21 @@ wp plugin install \
 
 wp theme activate my-theme --path=${WPINSTALLDIR} --allow-root
 ```
+
+## Node環境の用意
+
+* `npm i`
+* 登録済みタスクは下記参照
+* 開発サーバは`localhost:8080`を仲介して`localhost:3000`で起動する
+    * 3000番が埋まっていた場合は空いているポートを探す
+    * php/css/jsを更新すると自動反映・リロード
+
+|タスク名|内容|
+|:---|:---|
+|`npm start`|アセットのコンパイル・開発サーバの起動|
+|`npm run build`|アセットのコンパイルのみ実行|
+|`npm run build:production`|Productionモードでアセットのコンパイルを実行|
+|`npm run lint:fix`|jsファイルのlint実行・修正を行う|
 
 ## Docker構造
 

@@ -37,6 +37,9 @@ nbproject/*
 # node
 node_modules
 
+# build files
+my-theme/assets/*
+
 # docker data
 .data
 
