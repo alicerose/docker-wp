@@ -14,9 +14,9 @@ services:
     ports:
       - 3306:3306
 
-  wordpress:
+  apache:
      build:
-       context: ./docker/wordpress
+       context: ./docker/apache
        dockerfile: dockerfile
      links:
        - db
@@ -24,14 +24,18 @@ services:
        - 8080:80
      restart: always
      environment:
+       WORDPRESS_DIR: /var/www/html
        WORDPRESS_DB_HOST: db:3306
+       WORDPRESS_DB_USER: wordpress
        WORDPRESS_DB_PASSWORD: wordpress
+       WORDPRESS_DB_NAME: wordpress
      volumes:
        - ./.data/log/:/var/log/apache2/
+       - ./docker/apache/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+       - ./docker/php/php.ini:/usr/local/etc/php/php.ini:cached
+       - ./bin/:/var/www/bin/
        - ./.www/:/var/www/html/
        - ./my-theme/:/var/www/html/wp-content/themes/my-theme/
-       - ./.htaccess:/var/www/html/.htaccess
-       - ./bin:/var/www/bin
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
