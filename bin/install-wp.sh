@@ -20,4 +20,12 @@ wp plugin install \
     classic-editor advanced-custom-fields wp-multibyte-patch application-passwords acf-to-rest-api wp-add-mime-types  \
     --activate --path=${WORDPRESS_DIR} --allow-root
 
+wp plugin uninstall \
+    hello \
+    --path=${WORDPRESS_DIR} --allow-root
+
 wp theme activate my-theme --path=${WORDPRESS_DIR} --allow-root
+
+wp theme delete \
+    twentyseventeen twentynineteen twentytwenty \
+    --path=${WORDPRESS_DIR} --allow-root
