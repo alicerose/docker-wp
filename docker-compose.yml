@@ -31,8 +31,10 @@ services:
        WORDPRESS_DB_NAME: wordpress
      volumes:
        - ./.data/log/:/var/log/apache2/
+       - ./docker/apache/php.ini:/usr/local/etc/php/php.ini:cached
        - ./bin/:/var/www/bin/
        - ./.www/:/var/www/html/
+       - ./my-theme/:/var/www/html/wp-content/themes/my-theme/
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
