@@ -1,0 +1,19 @@
+FROM php:7.4.10-apache
+
+RUN curl --location --output /usr/local/bin/mhsendmail https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 && \
+    chmod +x /usr/local/bin/mhsendmail
+
+RUN apt-get update && apt-get install -y vim zip unzip
+
+RUN set -ex apk --no-cache add postgresql-dev libpq-dev
+
+RUN apt-get update \
+    && apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev libmcrypt-dev libonig-dev mariadb-client-core-10.3 \
+    && docker-php-ext-install pdo_mysql mysqli gd iconv
+
+RUN pecl install xdebug && \
+    docker-php-ext-enable xdebug
+
+RUN a2enmod rewrite
+
+RUN echo 'sendmail_path="/usr/local/bin/mhsendmail --smtp-addr=mailhog:1025 --from=admin@example.com"' > /usr/local/etc/php/conf.d/mailhog.ini
