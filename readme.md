@@ -3,6 +3,7 @@
 * テーマファイル郡だけgit管理したいDockerを作る
 * テーマディレクトリのみマウントしてgit管理
     * プラグインやコアファイルはgit管理から外してます
+* なるべく初期設定はWP-CLIに作業させる
 
 ## 必要なもの
 
@@ -24,8 +25,9 @@
 ├── .www // wordpressコンテナで生成されたhtdocs配下（自動生成、gitignore対象）
 ├── bin // シェルファイルの格納
 ├── docker // Dockerの構成ファイル
+│   ├── apache // apache.conf
 │   ├── images
-│   └── wordpress
+│   └── php // php.ini
 ├── my-theme // テーマディレクトリ
 │   └── assets // コンパイルされたアセット格納ディレクトリ（自動生成、gitignore対象）
 ├── node_modules // Nodeパッケージ（自動生成、gitignore対象）
@@ -60,29 +62,13 @@
 * WP-CLIをインストールして、出来うる設定はなるべくCLIにやらせる
 * WP-CLIはDockerのコンテナ内でインストール・実行している
 * シェルファイルはwordpressコンテナにマウントされる
-* 以下のプラグインをインストールし、有効化する
+* 汎用的なプラグインをインストールし、有効化する
     * classic-editor
     * advanced-custom-fields
     * wp-multibyte-patch
+    * など
 * このリポジトリで管理するテーマを有効化する
-
-```bash
-#!/usr/bin/env bash
-
-set -ex;
-WPINSTALLDIR=/var/www/html
-
-curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-
-chmod +x wp-cli.phar
-mv wp-cli.phar /usr/local/bin/wp
-
-wp plugin install \
-    classic-editor advanced-custom-fields wp-multibyte-patch \
-    --activate --path=${WPINSTALLDIR} --allow-root
-
-wp theme activate my-theme --path=${WPINSTALLDIR} --allow-root
-```
+* 不要なデフォルトプラグイン、テーマを削除する
 
 ## Node環境の用意
 
@@ -103,7 +89,7 @@ wp theme activate my-theme --path=${WPINSTALLDIR} --allow-root
 
 |ホスト|コンテナ|詳細・備考|
 |:---|:---|:---|
-|http://localhost:8080|Wordpress||
+|http://localhost:8080|Apache||
 |http://localhost:3306|MariaDB||
 |http://localhost:8081|PhpMyAdmin||
 |http://localhost:8025|MailHog|Wordpressから配信されたメールをインターセプトする|
