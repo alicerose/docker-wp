@@ -50,7 +50,7 @@
     * ![figure1](./docker/images/image0.png "")
         * DockerのメニューからDashboardを開く
     * ![figure2](./docker/images/image1.png "")
-        * 起動しているDockerから「***_wordpress」とついているコンテナのCLIボタンを押す
+        * 起動しているDockerから「***_apache」とついているコンテナのCLIボタンを押す
     * ![figure3](./docker/images/image2.png "")
         * `sh /var/www/bin/install.sh` を実行
         * シェルは`/bin/install.sh`がコピーされているもの
