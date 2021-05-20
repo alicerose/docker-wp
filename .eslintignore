@@ -1,8 +1,7 @@
 # ignore list
 
 /node_modules/**
-/dist/**
-/my-theme/**
+/app/themes/**
 
 # excludes in src
 /src/lib/config.**

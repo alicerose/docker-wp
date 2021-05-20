@@ -1,12 +1,15 @@
 root = true
 
-[*]
+[*.{js,css,scss,ejs,html,json}]
 charset = utf-8
 end_of_line = lf
-insert_final_newline = true
 indent_size = 2
 indent_style = space
+insert_final_newline = false
 trim_trailing_whitespace = true
 
 [*.php]
 indent_size = 4
+
+[*.md]
+trim_trailing_whitespace = false
