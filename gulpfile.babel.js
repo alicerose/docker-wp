@@ -5,10 +5,6 @@ import browser from 'browser-sync';
 import gulpIf from 'gulp-if';
 import plumber from 'gulp-plumber';
 import notify from 'gulp-notify';
-import rename from 'gulp-rename';
-import replace from 'gulp-replace';
-
-import ejs from 'gulp-ejs';
 
 import sass from 'gulp-sass';
 import sassGlob from 'gulp-sass-glob';
@@ -73,29 +69,6 @@ task('reload', done => {
   done();
 });
 
-task('ejs', () => {
-  return src(dir.src + '/ejs/**/[^_]*.ejs')
-    .pipe(plumber(errorTemplate()))
-    .pipe(ejs())
-    .pipe(
-      rename({
-        extname: `.${config.html.options.ejs.extension}`,
-      })
-    )
-    .pipe(
-      gulpIf(
-        config.html.revision,
-        replace(
-          /\.(js|css|gif|jpg|jpeg|png|svg)\?rev/g,
-          // !isProduction ? '.$1?rev=' + revision : '.$1'
-          '.$1?rev=' + revision
-        )
-      )
-    )
-    .pipe(dest(dir.dist))
-    .pipe(browser.stream());
-});
-
 /**
  * SCSSコンパイル
  */
@@ -134,7 +107,7 @@ task('images', () => {
  * 静的ファイルのコピー
  */
 task('assets', () => {
-  return src(dir.src + '/assets/**')
+  return src(dir.src + '/copy/**')
     .pipe(dest(dir.dist))
     .pipe(browser.stream());
 });
@@ -143,11 +116,10 @@ task('assets', () => {
  * ファイル更新監視
  */
 task('watch', done => {
-  // watch(dir.src + `/${config.html.engine}/**/*`, task(config.html.engine));
   watch(dir.src + '/scss/**/*.scss', task('scss'));
   watch(dir.src + '/webpack/**/*.js', task('js'));
-  watch(dir.src + '/images/**/*.*', task('images'));
-  watch(dir.src + '/assets/**/*.*', task('assets'));
+  watch(dir.src + '/images/**/*', task('images'));
+  watch(dir.src + '/copy/**/*', task('assets'));
   watch(dir.dist + '/**/*.php', task('reload'));
   done();
 });
@@ -156,7 +128,7 @@ task('watch', done => {
  * ビルドしたディレクトリの削除
  */
 task('clean', () => {
-  return del([dir.dist]);
+  return del([dir.dist + dir.assets]);
 });
 
 /**

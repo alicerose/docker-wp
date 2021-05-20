@@ -1,8 +1,8 @@
-/**
- * テスト関数
- */
-const test = () => {
-  const t = $('h1').text().trim();
-  console.log('サイト名：', t);
-};
-test();
+import $ from 'jquery';
+import { SOME_NUMBER } from 'CONSTANTS/common';
+import { exportHoge } from 'CONTROLLERS/test';
+
+exportHoge(SOME_NUMBER);
+const text = $('header h1').text();
+alert(text);
+console.log('hogehogehoge');

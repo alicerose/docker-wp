@@ -4,8 +4,8 @@ import flexBugFixes from 'postcss-flexbugs-fixes';
 export const gulpConfig = {
   dir: {
     src: 'src',
-    dist: 'app/themes/my-theme/assets',
-    assets: '',
+    dist: 'app/themes/my-theme',
+    assets: '/assets',
   },
   server: {
     // https://browsersync.io/docs/options#option-server
