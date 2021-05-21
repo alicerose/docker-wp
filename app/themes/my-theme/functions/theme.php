@@ -25,6 +25,16 @@
      */
      // add_action( 'init', 'modify_post_menu_label' );
 
+    /**
+     * アセットファイル読み込み制御
+     */
+    add_action('wp_enqueue_scripts', 'loadAssets');
+
+    /**
+     * メニュー機能の有効化
+     */
+    add_action('after_setup_theme', 'enableThemeMenu');
+
     /*-----------------------------------------------------------------------------------*/
     /* 関数 */
     /*-----------------------------------------------------------------------------------*/
@@ -104,4 +114,40 @@
         $labels->search_items = $name.'を検索';
         $labels->not_found = $name.'が見つかりませんでした';
         $labels->not_found_in_trash = 'ゴミ箱に'.$name.'は見つかりませんでした';
+    }
+
+    /**
+     *
+     */
+    function loadAssets()
+    {
+        // WordPress提供のjquery.jsを読み込まない
+        wp_deregister_script('jquery');
+
+        define("TEMPLATE_DIR", get_template_directory_uri());
+        define("TEMPLATE_PATH", get_template_directory());
+
+        function wp_css($css_name, $file_path){
+            wp_enqueue_style($css_name,TEMPLATE_DIR.$file_path, array(), date('YmdGis', filemtime(TEMPLATE_PATH.$file_path)));
+        }
+        function wp_script($script_name, $file_path, $bool = true){
+            wp_enqueue_script($script_name,TEMPLATE_DIR.$file_path, array(), date('YmdGis', filemtime(TEMPLATE_PATH.$file_path)), $bool);
+        }
+
+        wp_script('theme_script','/assets/js/app.js');
+        wp_css('theme_style','/assets/css/common.css');
+
+    }
+
+    /**
+     *
+     */
+    function enableThemeMenu()
+    {
+        register_nav_menus([
+            //複数のナビゲーションメニューを登録する関数
+            //'「メニューの位置」の識別子' => 'メニューの説明の文字列',
+            'main-menu' => 'Main Menu',
+            'footer-menu' => 'Footer Menu',
+        ]);
     }
