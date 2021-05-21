@@ -30,6 +30,12 @@
   }
 }
 
+@mixin ff {
+  _:lang(x)::-moz-placeholder, & {
+    @content;
+  }
+}
+
 // placeholder
 @mixin placeholder {
   &:placeholder-shown {
@@ -79,4 +85,35 @@
       display: none;
     }
   }
+}
+
+// reset list
+@mixin listReset {
+  list-style: none;
+  padding: 0;
+}
+// reset a
+@mixin aReset {
+  display: inline-block;
+  &:link {
+    text-decoration: none;
+  }
+  &:visited {
+    text-decoration: none;
+  }
+  &:hover {
+    text-decoration: none;
+  }
+  img {
+    border-width: 0px;
+    border-style: none;
+    border-color: transparent;
+    background: transparent;
+  }
+}
+
+@mixin objectFit($method: contain) {
+  object-fit: $method;
+  font-family: 'object-fit: #{$method};';
+  @content;
 }
