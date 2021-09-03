@@ -6,7 +6,10 @@ import gulpIf from 'gulp-if';
 import plumber from 'gulp-plumber';
 import notify from 'gulp-notify';
 
-import sass from 'gulp-sass';
+import dartSass from 'sass';
+import gulpSass from 'gulp-sass';
+const sass = gulpSass(dartSass);
+
 import sassGlob from 'gulp-sass-glob';
 import sourcemaps from 'gulp-sourcemaps';
 import postcss from 'gulp-postcss';
@@ -134,10 +137,7 @@ task('clean', () => {
 /**
  * ビルドタスク
  */
-task(
-  'build',
-  series('clean', 'scss', 'js', 'images', 'assets')
-);
+task('build', series('clean', 'scss', 'js', 'images', 'assets'));
 
 /**
  * 標準タスク

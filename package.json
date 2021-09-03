@@ -1,6 +1,6 @@
 {
   "name": "docker-wp-frontend",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "gulpfile.js template for web development",
   "main": "index.js",
   "scripts": {
@@ -16,37 +16,38 @@
     "ie 11"
   ],
   "devDependencies": {
-    "@babel/core": "^7.14.3",
-    "@babel/preset-env": "^7.14.2",
-    "@babel/register": "^7.13.16",
-    "@prettier/plugin-php": "^0.16.3",
-    "autoprefixer": "^10.2.5",
+    "@babel/core": "^7.15.4",
+    "@babel/preset-env": "^7.15.4",
+    "@babel/register": "^7.15.3",
+    "@prettier/plugin-php": "^0.17.4",
+    "autoprefixer": "^10.3.4",
     "babel-loader": "^8.2.2",
-    "browser-sync": "^2.26.14",
+    "browser-sync": "^2.27.5",
     "del": "^6.0.0",
-    "eslint": "^7.26.0",
+    "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "gulp": "^4.0.2",
     "gulp-if": "^3.0.0",
     "gulp-notify": "^4.0.0",
     "gulp-plumber": "^1.2.1",
-    "gulp-postcss": "^9.0.0",
-    "gulp-sass": "^4.1.0",
+    "gulp-postcss": "^9.0.1",
+    "gulp-sass": "^5.0.0",
     "gulp-sass-glob": "^1.1.0",
     "gulp-sourcemaps": "^3.0.0",
-    "postcss": "^8.2.15",
+    "postcss": "^8.3.6",
     "postcss-flexbugs-fixes": "^5.0.2",
-    "prettier": "^2.3.0",
-    "terser-webpack-plugin": "^5.1.2",
-    "webpack": "^5.37.0",
-    "webpack-cli": "^4.7.0",
-    "webpack-stream": "^6.1.2"
+    "prettier": "^2.3.2",
+    "sass": "^1.39.0",
+    "terser-webpack-plugin": "^5.2.2",
+    "webpack": "^5.51.2",
+    "webpack-cli": "^4.8.0",
+    "webpack-stream": "^7.0.0"
   },
   "dependencies": {
     "jquery": "^3.6.0"
   },
   "peerDependencies": {
-    "postcss": "^8.2.15"
+    "postcss": "^8.3.6"
   }
 }
