@@ -31,7 +31,7 @@ else
   wp option update siteurl ${WP_URL} --path=${WP_PATH} --allow-root
 
   # index.phpを置換して移動
-  sed -e "s/'\/wp-blog-header.php'/'\/wp\/wp-blog-header.php'/g" ${WP_PATH}/index.php > /var/www/html/index.php
+  sed -e "s/'\/wp-blog-header.php'/'\/app\/wp-blog-header.php'/g" ${WP_PATH}/index.php > /var/www/html/index.php
 
   # htaccessの移動
   cp ${WP_PATH}/.htaccess /var/www/html/.htaccess
