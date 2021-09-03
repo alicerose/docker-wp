@@ -20,18 +20,18 @@ services:
     build: ./docker/app
     command: bash -c "sh /var/www/bin/migrations.sh && apache2-foreground"
     volumes:
-      - ./app/themes:/var/www/html/wp/wp-content/themes
+      - ./app/themes:/var/www/html/app/wp-content/themes
       - ./app/.htaccess:/var/www/html/.htaccess
       - ./bin:/var/www/bin
       - ./.data/app:/var/www/html:delegated
       - ./.data/log/app/:/var/log/apache2/
       - ./.data/log/app/php/:/var/log/php/
     environment:
-      WP_PATH: /var/www/html/wp
+      WP_PATH: /var/www/html/app
       WP_USER: admin
       WP_PASS: password
       WP_MAIL: test@example.com
-      WP_URL: http://localhost:8888/wp/
+      WP_URL: http://localhost:8888/app/
       WP_NAME: Wordpress
       WP_DB_HOST: db:3306
       WP_DB_NAME: wordpress
