@@ -14,6 +14,10 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 RUN chmod +x wp-cli.phar
 RUN mv wp-cli.phar /usr/local/bin/wp
 
+# prepare cache directory
+RUN mkdir /var/www/.wp-cli \
+  && chown www-data:www-data /var/www/.wp-cli
+
 # Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER 1
@@ -29,6 +33,9 @@ RUN curl --location --output /usr/local/bin/mhsendmail https://github.com/mailho
     chmod +x /usr/local/bin/mhsendmail
 
 RUN echo 'sendmail_path="/usr/local/bin/mhsendmail --smtp-addr=mailhog:1025 --from=admin@example.com"' > /usr/local/etc/php/conf.d/mailhog.ini
+
+# switch user to www-data
+USER www-data
 
 # use bash shell
 SHELL ["/bin/bash", "-l", "-c"]

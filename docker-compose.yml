@@ -24,8 +24,8 @@ services:
       - ./app/.htaccess:/var/www/html/.htaccess
       - ./bin:/var/www/bin
       - ./.data/app:/var/www/html:delegated
-      - ./.data/log/app/:/var/log/apache2/
-      - ./.data/log/app/php/:/var/log/php/
+#      - ./.data/log/app/:/var/log/apache2/
+#      - ./.data/log/app/php/:/var/log/php/
     environment:
       WP_PATH: /var/www/html/app
       WP_USER: admin
