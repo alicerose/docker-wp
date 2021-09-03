@@ -51,6 +51,7 @@ Thumbs.db
 # Project
 .data
 node_modules/
+/app/themes/index.php
 /app/themes/twenty*
 /app/themes/my-theme/assets/
 /bin/migrations/log/
