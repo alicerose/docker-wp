@@ -20,6 +20,7 @@ services:
     build: .docker/app
     env_file: .docker/app/.env
     volumes:
+      - ./dist:/var/www/html/wp-content/themes/my-theme
       - ./.data/app:/var/www/html:delegated
     restart: always
     tty: true

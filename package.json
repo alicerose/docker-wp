@@ -1,0 +1,53 @@
+{
+  "name": "docker-wp-frontend",
+  "version": "4.0.0",
+  "description": "environment for wordpress template development",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack --mode development --watch",
+    "build": "webpack --mode production"
+  },
+  "dependencies": {
+    "@types/jquery": "^3.5.11",
+    "autoprefixer": "^10.4.1",
+    "axios": "^0.24.0",
+    "copy-webpack-plugin": "^10.2.0",
+    "core-js": "^3.20.2",
+    "css-loader": "^6.5.1",
+    "dotenv-webpack": "^7.1.0",
+    "globule": "^1.3.3",
+    "jquery": "^3.6.0",
+    "mini-css-extract-plugin": "^2.4.5",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.4.5",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-loader": "^6.2.1",
+    "sass": "^1.46.0",
+    "sass-loader": "^12.4.0",
+    "scss-reset": "^1.2.2",
+    "style-loader": "^3.3.1",
+    "terser-webpack-plugin": "^5.3.0",
+    "ts-loader": "^9.2.6",
+    "typescript": "^4.5.4",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.9.0",
+    "@typescript-eslint/parser": "^5.9.0",
+    "browser-sync": "^2.27.7",
+    "browser-sync-webpack-plugin": "^2.3.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.2.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.1.5",
+    "prettier": "^2.5.1",
+    "prettier-eslint": "^13.0.0",
+    "webpack-bundle-analyzer": "^4.5.0",
+    "webpack-dev-server": "^4.7.2"
+  }
+}
