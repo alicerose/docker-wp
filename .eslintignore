@@ -1,7 +1,0 @@
-# ignore list
-
-/node_modules/**
-/app/themes/**
-
-# excludes in src
-/src/lib/config.**
