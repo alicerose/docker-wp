@@ -1,0 +1,39 @@
+// vendor
+//@use 'vendor/normalize';
+@use 'vendor/remedy';
+
+// foundation
+@use 'foundation/base';
+
+// components
+
+
+// --------------------------------
+// サンプル
+// --------------------------------
+
+header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  background: {
+    color: rgba(#fff, 0.8);
+  }
+  border: {
+    bottom: 1px solid #ddd;
+  }
+}
+
+nav {
+  ul {
+    display: flex;
+    margin: 0;
+    padding: 0;
+  }
+  ul, li {
+    list-style-type: none;
+  }
+  li {
+    padding: 1em;
+  }
+}
