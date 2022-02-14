@@ -38,7 +38,8 @@ const imageLoaderBehavior = prepareImageLoader(configs.images);
 
 const app = {
   entry: {
-    app: `./${configs.directories.src}/ts/index.ts`,
+    app  : `./${configs.directories.src}/ts/index.ts`,
+    admin: `./${configs.directories.src}/ts/admin.ts`,
   },
 
   target: ['web', 'es5'],
@@ -101,6 +102,7 @@ const app = {
   output: {
     filename: 'assets/js/[name].bundle.js',
     path    : path.join(__dirname, configs.directories.dist),
+    clean   : true,
   },
 
   devServer: {
@@ -127,7 +129,7 @@ const app = {
     }),
     new BrowserSyncPlugin({
       proxy    : configs.server.proxy,
-      files    : [ configs.directories.src + '/scss/*.scss', configs.directories.src + '/ts/*.ts', configs.directories.src + '/templates/*.php' ],
+      files    : [configs.directories.src + '/scss/**/*.scss', configs.directories.src + '/ts/**/*.ts', configs.directories.src + '/templates/**/*.php' ],
       injectCss: true,
     }, { reload: false, }),
   ],

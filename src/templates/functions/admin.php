@@ -7,7 +7,7 @@
     /**
      * 管理画面用追加アセット
      */
-//    add_action( 'admin_enqueue_scripts', 'addAdminAsset' );
+    add_action( 'admin_enqueue_scripts', 'addAdminAsset' );
 
     /**
      * 管理画面のfavicon差し替え
@@ -53,7 +53,7 @@
      */
     function addAdminAsset() {
         wp_enqueue_style( 'custom-admin', get_template_directory_uri() . '/assets/css/admin.css' );
-        wp_enqueue_script( 'custom-admin', get_template_directory_uri() . '/assets/js/admin.js' );
+        wp_enqueue_script( 'custom-admin', get_template_directory_uri() . '/assets/js/admin.bundle.js' );
     }
 
     /**
