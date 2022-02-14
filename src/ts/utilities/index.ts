@@ -3,6 +3,7 @@ import { AnchorLink } from './anchor';
 import { UserAgent } from './userAgent';
 import { EnableJQuery } from '../vendors/EnableJQuery';
 import { ScrollDetector } from './scrollDetector';
+import { PageInfo } from './pageInfo';
 
 export const Utilities = {
   init() {
@@ -17,9 +18,11 @@ export const Utilities = {
   global() {
     AnchorLink.init();
     EnableJQuery.init();
+    PageInfo.init();
     ScrollDetector.init();
     UserAgent.init();
     Viewport.init();
+
   },
   /**
    * 個別ページ専用のスクリプトを記述
