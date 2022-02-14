@@ -22,6 +22,7 @@ services:
     volumes:
       - ./dist:/var/www/html/wp-content/themes/my-theme
       - ./.data/app:/var/www/html:delegated
+      - ./.data/log:/var/log
     restart: always
     tty: true
     ports:
