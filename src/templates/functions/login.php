@@ -34,7 +34,7 @@
     }
 
     /**
-     * @return string|void
+     * @return string
      */
     function modifyLoginLogoPath(): string
     {
@@ -46,7 +46,7 @@
      */
     function modifyLoginLogoTitle(): string
     {
-        return 'CHAMBER PASSを表示';
+        return get_bloginfo('title') . 'を表示';
     }
 
     /**

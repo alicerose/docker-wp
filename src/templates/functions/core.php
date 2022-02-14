@@ -66,6 +66,7 @@
      * @param $args
      * @return string
      */
-    function modifyFileMethod($args) {
+    function modifyFileMethod($args): string
+    {
         return 'direct';
     }

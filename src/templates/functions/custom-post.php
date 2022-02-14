@@ -40,9 +40,9 @@
     /**
      * @param $name
      * @param $type
-     * @param $override array?
+     * @param $override array|null?
      */
-    function registerPostType($name, $type, $override = null) {
+    function registerPostType($name, $type, array $override = null) {
         $labels = [
             'name'               => $name,
             'singular_name'      => $name,
@@ -92,9 +92,9 @@
      * @param $taxonomyName
      * @param $label
      * @param $type array|string
-     * @param $override array?
+     * @param $override array|null?
      */
-    function registerCustomTaxonomy($taxonomyName, $label, $type = 'post', $override = null) {
+    function registerCustomTaxonomy($taxonomyName, $label, $type = 'post', array $override = null) {
 
         $labels = [
             'name'               => $label,

@@ -1,5 +1,6 @@
 <?php
 
     /**
-     * 定数郡の読み込み
+     * 環境判別
      */
+    define("ENVIRONMENT", $_SERVER['WP_ENV'] ?? 'local');
