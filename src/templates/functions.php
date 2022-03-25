@@ -1,8 +1,5 @@
 <?php
 
-    //define('WP_DEBUG',true);
-    //define('WP_THEMES_ROOT',get_template_directory_uri());
-
     if (!defined('DS')) {
         define('DS', DIRECTORY_SEPARATOR);
     }
@@ -16,6 +13,7 @@
     /*-----------------------------------------------------------------------------------*/
 
     include_once('constants/index.php');
+    include_once('constants/config.php');
 
     /*-----------------------------------------------------------------------------------*/
     /* 基本設定 */

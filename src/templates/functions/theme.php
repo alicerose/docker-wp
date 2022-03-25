@@ -127,16 +127,28 @@
         define("TEMPLATE_DIR", get_template_directory_uri());
         define("TEMPLATE_PATH", get_template_directory());
 
+        /**
+         * @param $css_name
+         * @param $file_path
+         * @return void
+         */
         function wp_css($css_name, $file_path){
-            wp_enqueue_style($css_name,TEMPLATE_DIR.$file_path, array(), date('YmdGis', filemtime(TEMPLATE_PATH.$file_path)));
-        }
-        function wp_script($script_name, $file_path, $bool = true){
-            wp_enqueue_script($script_name,TEMPLATE_DIR.$file_path, array(), date('YmdGis', filemtime(TEMPLATE_PATH.$file_path)), $bool);
+            wp_enqueue_style($css_name,THEME_URI.$file_path, [], date('YmdGis', filemtime(THEME_PATH.$file_path)));
         }
 
-        wp_script('theme_script_app','/assets/js/app.bundle.js');
-        wp_script('theme_script_ven','/assets/js/vendor.bundle.js');
-        wp_css('theme_style','/assets/css/app.css');
+        /**
+         * @param $script_name
+         * @param $file_path
+         * @param bool $in_footer true時にヘッダでなくフッタに挿入する
+         * @return void
+         */
+        function wp_script($script_name, $file_path, bool $in_footer = true){
+            wp_enqueue_script($script_name,THEME_URI.$file_path, [], date('YmdGis', filemtime(THEME_PATH.$file_path)), $in_footer);
+        }
+
+        wp_script('theme_script_app',ASSET_DIR . '/js/app.bundle.js');
+        wp_script('theme_script_ven',ASSET_DIR . '/js/vendor.bundle.js');
+        wp_css('theme_style',ASSET_DIR . '/css/app.css');
 
     }
 

@@ -3,11 +3,11 @@
     class ThemePaths {
 
         public static function getAssetDir() {
-            echo get_template_directory() . '/assets';
+            echo THEME_PATH . '/assets';
         }
 
         public static function getAssetDirUri() {
-            echo get_template_directory_uri() . '/assets';
+            echo THEME_URI . '/assets';
         }
 
     }
