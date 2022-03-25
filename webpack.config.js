@@ -1,88 +1,175 @@
-const terserPlugin = require('terser-webpack-plugin');
-const webpack = require('webpack');
+/* eslint @typescript-eslint/no-var-requires : 0 */
 const path = require('path');
+const configs = require('./project.config');
+const webpack = require('webpack');
+const TerserPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
+
+const environment = process.env.NODE_ENV || 'local';
+const isProduction = process.env.NODE_ENV === 'production';
+console.log('Build Environment :', environment);
 
 /**
- * production flag
- * @type {boolean}
+ * 画像処理の設定準備
+ * @param config
+ * @return {{type: (string)}}
  */
-const isProduction = process.env.NODE_ENV === 'production';
+const prepareImageLoader = (config) => {
+  const loader = {
+    type     : config.bundleImages ? 'asset' : 'asset/resource',
+    generator: {
+      filename: config.assetName,
+    },
+  };
+  if (config.bundleImages) {
+    loader.parser = {
+      dataUrlCondition: {
+        maxSize: config.bundleSizeLimit,
+      },
+    };
+  }
 
-module.exports = {
-  // モードの設定、v4系以降はmodeを指定しないと、webpack実行時に警告が出る
-  mode: isProduction ? 'production' : 'development',
-  // エントリーポイントの設定
+  return loader;
+};
+const imageLoaderBehavior = prepareImageLoader(configs.images);
+
+const app = {
   entry: {
-    app: './src/webpack/main.js',
-    app2: './src/webpack/sub.js',
+    app  : `./${configs.directories.src}/ts/index.ts`,
+    admin: `./${configs.directories.src}/ts/admin.ts`,
   },
-  // 出力の設定
-  output: {
-    filename: '[name].js',
-  },
+
+  target: ['web', 'es5'],
+
   module: {
     rules: [
+      // ts
       {
-        test: /\.js$/,
-        use: [
+        test: /\.ts$/,
+        use : 'ts-loader',
+      },
+
+      // images
+      {
+        test: /\.(jpe?g|png|gif|svg|webp)$/,
+        ...imageLoaderBehavior,
+      },
+
+      // scss
+      {
+        test: /\.scss/,
+        use : [
+          // 'style-loader',
+          MiniCssExtractPlugin.loader,
           {
-            loader: 'babel-loader',
+            loader : 'css-loader',
             options: {
-              presets: [
-                [
-                  '@babel/preset-env',
-                  {
-                    useBuiltIns: 'entry',
-                    corejs: 3,
-                  },
-                ],
-              ],
-              plugins: ['@babel/plugin-proposal-class-properties'],
+              url          : true,
+              sourceMap    : !isProduction,
+              importLoaders: 2,
+            },
+          },
+          {
+            loader : 'postcss-loader',
+            options: {
+              postcssOptions: {
+                ...configs.scss.plugins,
+              },
+            },
+          },
+          {
+            loader : 'sass-loader',
+            options: {
+              sourceMap: !isProduction,
             },
           },
         ],
       },
     ],
   },
-  /**
-   * Productionビルド時の最適化
-   */
+
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+    },
+    extensions: ['.ts', '.js'],
+    modules   : ['node_modules'],
+  },
+
+  output: {
+    filename: 'assets/js/[name].bundle.js',
+    path    : path.join(__dirname, configs.directories.dist),
+    clean   : true,
+  },
+
+  devServer: {
+    devMiddleware: {
+      writeToDisk: true, // バンドルされたファイルを出力する（実際に書き出す）
+    },
+  },
+
+  plugins: [
+    new Dotenv({
+      path    : path.resolve(__dirname, `.env.${environment}`),
+      safe    : false,
+      defaults: false,
+      expand  : true,
+    }),
+    new MiniCssExtractPlugin({
+      // 抽出する CSS のファイル名
+      filename: 'assets/css/[name].css',
+    }),
+    new webpack.ProvidePlugin({
+      '$'            : 'jquery',
+      'jQuery'       : 'jquery',
+      'window.jQuery': 'jquery',
+    }),
+    new BrowserSyncPlugin({
+      proxy    : configs.server.proxy,
+      files    : [configs.directories.src + '/scss/**/*.scss', configs.directories.src + '/ts/**/*.ts', configs.directories.src + '/templates/**/*.php' ],
+      injectCss: true,
+    }, { reload: false, }),
+  ],
+
   optimization: {
-    minimizer: [
-      new terserPlugin({
-        parallel: true,
+    usedExports: true,
+    minimizer  : [
+      new TerserPlugin({
+        parallel     : true,
         terserOptions: {
-          compress: { drop_console: true },
+          compress: { drop_console: isProduction },
         },
       }),
     ],
-  },
-  /**
-   * 依存関係解決
-   */
-  resolve: {
-    /**
-     * エイリアス
-     */
-    alias: {
-      '@': path.resolve(__dirname, 'src'),
-      API: path.resolve(__dirname, 'src/webpack/api'),
-      CONSTANTS: path.resolve(__dirname, 'src/webpack/constants'),
-      CONTROLLERS: path.resolve(__dirname, 'src/webpack/controllers'),
-      MODELS: path.resolve(__dirname, 'src/webpack/models'),
-      UTILS: path.resolve(__dirname, 'src/webpack/utilities'),
-      VENDOR: path.resolve(__dirname, 'src/webpack/vendor'),
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          // node_modules配下はvendorとしてbundle
+          test   : /node_modules/,
+          name   : 'vendor',
+          chunks : 'initial',
+          enforce: true,
+        },
+      },
     },
-    modules: ['node_modules'],
   },
-  plugins: [
-    new webpack.ProvidePlugin({
-      /**
-       * jqueryをnpmから使用
-       */
-      $: 'jquery',
-      jQuery: 'jquery',
-      'window.jQuery': 'jquery',
-    }),
-  ],
+};
+
+module.exports = (env, argv) => {
+  app.mode = argv.mode ?? 'development';
+  if (argv.mode !== 'production' && !isProduction) app.devtool = 'source-map';
+
+  const patterns = [
+    {
+      from: 'src/templates',
+      to  : path.join(__dirname, configs.directories.dist),
+    },
+  ];
+
+  app.plugins.push(new CopyPlugin({ patterns }));
+
+  return app;
 };

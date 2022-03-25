@@ -1,15 +1,21 @@
-// media queries
-// 第一引数省略時       : 640px
-// 第二引数省略時の挙動 : max-width
-// 第二引数にmin        : min-width
-// 第二引数がminの場合、第一引数に+1される
-// .hoge {
-//   @include mq {} // @media screen and (max-width: 768px) {}
-//   @include mq(min) {} // @media screen and (min-width: 769px) {}
-//   @include mq(min, 1000){} // @media screen and (min-width: 1001px) {}
-// }
+// --------------------------------
+// 独自mixins
+// --------------------------------
+@use 'variables' as var;
 
-@mixin mq($method: max, $width: $breakpoint) {
+// メディアクエリ
+// 第一引数省略時
+//   ブレイクポイント変数
+// 第二引数省略時の挙動
+//   max-width
+// 第一引数にmin
+//   min-width
+//   第二引数がminの場合、第一引数に+1される
+// コンパイルサンプル
+//   @include mq {}           // @media screen and (max-width: 768px) {}
+//   @include mq(min) {}      // @media screen and (min-width: 769px) {}
+//   @include mq(min, 1000){} // @media screen and (min-width: 1001px) {}
+@mixin mq($method: max, $width: var.$breakpoint) {
   @if ($method == min) {
     $width: $width + 1;
   }
@@ -26,12 +32,6 @@
 }
 @mixin edge {
   @supports (-ms-ime-align: auto) {
-    @content;
-  }
-}
-
-@mixin ff {
-  _:lang(x)::-moz-placeholder, & {
     @content;
   }
 }
@@ -65,6 +65,7 @@
   &:hover {
     @include mq(min) {
       #{$method}: $value;
+      @content;
     }
   }
 }
@@ -87,33 +88,11 @@
   }
 }
 
-// reset list
-@mixin listReset {
-  list-style: none;
-  padding: 0;
-}
-// reset a
-@mixin aReset {
-  display: inline-block;
-  &:link {
-    text-decoration: none;
-  }
-  &:visited {
-    text-decoration: none;
-  }
-  &:hover {
-    text-decoration: none;
-  }
-  img {
-    border-width: 0px;
-    border-style: none;
-    border-color: transparent;
-    background: transparent;
-  }
-}
-
+// objectFit
+// IE11でpolyfill(https://github.com/fregante/object-fit-images) を使うときのことを考えてmixin化
 @mixin objectFit($method: contain) {
   object-fit: $method;
+  object-position: center;
   font-family: 'object-fit: #{$method};';
   @content;
 }

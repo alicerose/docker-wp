@@ -17,28 +17,12 @@ services:
   app:
     depends_on:
       - db
-    build: ./docker/app
-    command: bash -c "sh /var/www/bin/migrations.sh && apache2-foreground"
+    build: .docker/app
+    env_file: .docker/app/.env
     volumes:
-      - ./app/themes:/var/www/html/app/wp-content/themes
-      - ./app/.htaccess:/var/www/html/.htaccess
-      - ./bin:/var/www/bin
+      - ./dist:/var/www/html/wp-content/themes/my-theme
       - ./.data/app:/var/www/html:delegated
-#      - ./.data/log/app/:/var/log/apache2/
-#      - ./.data/log/app/php/:/var/log/php/
-    environment:
-      WP_PATH: /var/www/html/app
-      WP_USER: admin
-      WP_PASS: password
-      WP_MAIL: test@example.com
-      WP_URL: http://localhost:8888/app/
-      WP_NAME: Wordpress
-      WP_DB_HOST: db:3306
-      WP_DB_NAME: wordpress
-      WP_DB_USER: wordpress
-      WP_DB_PASS: wordpress
-      WP_DB_PREF: wp_
-      WP_THEME: my-theme
+      - ./.data/log:/var/log
     restart: always
     tty: true
     ports:
