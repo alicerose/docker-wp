@@ -21,7 +21,7 @@ services:
     env_file: .docker/app/.env
     volumes:
       - ./dist:/var/www/html/wp-content/themes/my-theme
-      - app-volume:/var/www/html
+      - ./.data/app:/var/www/html
       - ./.data/log:/var/log
     restart: always
     tty: true
@@ -45,5 +45,4 @@ services:
       - "8025:8025"
       - "1025:1025"
 volumes:
-  app-volume:
   db-volume:
