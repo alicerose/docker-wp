@@ -3,12 +3,12 @@
 /**
  * テーマディレクトリのURI
  */
-define('THEME_URI', get_template_directory_uri());
+define("THEME_URI", get_template_directory_uri());
 
 /**
- * テーマディレクトリのパス
+ * テーマディレクトリへのサーバパス
  */
-define('THEME_PATH', get_template_directory());
+define("THEME_PATH", get_template_directory());
 
 /**
  * 環境判別
