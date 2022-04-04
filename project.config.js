@@ -20,6 +20,7 @@ module.exports = {
     assetName: './assets/images/[name].[contenthash][ext]',
   },
   server: {
-    proxy: 'http://localhost:8888/'
+    proxy: 'http://localhost:8888/',
+    open : 'external'
   }
 };
