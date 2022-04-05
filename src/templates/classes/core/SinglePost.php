@@ -1,6 +1,7 @@
 <?php
 
 include_once 'SingleTerm.php';
+include_once 'Author.php';
 
 /**
  * 投稿詳細基底クラス
@@ -68,6 +69,12 @@ class SinglePostClass
     public string|false|WP_Error $url;
 
     /**
+     * 記事作成者情報
+     * @var AuthorClass
+     */
+    public AuthorClass $author;
+
+    /**
      * @param WP_Post $post
      * @param $categories
      * @param $tags
@@ -81,8 +88,8 @@ class SinglePostClass
         $this->title = $post->post_title;
         $this->content = $post->post_content;
         $this->thumbnail = get_the_post_thumbnail_url($post->ID);
-
         $this->url = get_permalink($this->id);
+        $this->author = new AuthorClass($post->post_author);
 
         $this->categories = $this->getTaxonomies($categories);
         $this->tags = $this->getTaxonomies($tags);

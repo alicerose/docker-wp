@@ -25,6 +25,10 @@ foreach($Posts->posts as $post):
                 <?= $tag->name; ?>
             <?php endforeach; ?>
         </div>
+        <div>
+            投稿者：
+            <?= $post->author->name; ?>
+        </div>
     </div>
 </article>
 <?php
