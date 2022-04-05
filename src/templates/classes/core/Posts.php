@@ -7,6 +7,7 @@ include_once('Tags.php');
 
 /**
  * 投稿取得基底クラス
+ * カスタム投稿タイプの場合はこのクラスを継承する
  */
 class PostsClass
 {
@@ -33,16 +34,20 @@ class PostsClass
     public int $page;
 
     /**
+     * 1ページあたりの表示件数
      * @var false|mixed|void
      */
     private $per_page;
 
     /**
+     * 投稿取得クエリの上書き要素
+     * 取得の仕方を変えたい場合の取得方法
      * @var array
      */
     private array $query_args;
 
     /**
+     * 未加工の投稿取得クエリ結果
      * @var WP_Query
      */
     private WP_Query $query;
@@ -55,18 +60,23 @@ class PostsClass
 
     /**
      * 現在ページの投稿一覧
+     * WP_Postを加工したものが配列で入っているのでループで回す
      * @var array
      */
     public array $posts;
 
     /**
      * 公開カテゴリー一覧
+     * WP_Termを加工したものが配列で入っているのでループで回す
+     * キーはタクソノミー名
      * @var array
      */
     public array $categories;
 
     /**
      * 公開タグ一覧
+     * WP_Termを加工したものが配列で入っているのでループで回す
+     * キーはタクソノミー名
      * @var array
      */
     public array $tags;
@@ -112,7 +122,7 @@ class PostsClass
     {
         $posts = [];
         foreach ($this->query->posts as $post) {
-            $posts[] = new SinglePostClass($post);
+            $posts[] = new SinglePostClass($post, self::taxonomies, self::tag_taxonomies);
         }
         return $posts;
     }
