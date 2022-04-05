@@ -1,5 +1,7 @@
 <?php
 
+include_once 'SingleTerm.php';
+
 /**
  * カテゴリー取得基底クラス
  */
@@ -24,33 +26,9 @@ class CategoriesClass {
     {
         $arr = [];
         foreach($this->raw as $category) {
-            $arr[] = new CategoryClass($category);
+            $arr[] = new SingleTermClass($category);
         }
 
         return $arr;
-    }
-}
-
-class CategoryClass {
-    public int $id;
-    public string $name;
-    public string $slug;
-    public string $description;
-    public int $count;
-    public int $parent;
-
-    public function __construct(WP_Term $category)
-    {
-        $this->id = $category->term_taxonomy_id;
-        $this->name = $category->name;
-        $this->slug = urldecode($category->slug);
-        $this->description =$category->description;
-        $this->count = $category->count;
-        $this->parent = $category->parent;
-    }
-
-    public function getShortName(): string
-    {
-        return mb_strimwidth( strip_tags( $this->name ), 0, 42, '…', 'UTF-8' );
     }
 }

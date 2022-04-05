@@ -1,5 +1,7 @@
 <?php
 
+include_once 'SingleTerm.php';
+
 /**
  * タグ取得基底クラス
  */
@@ -30,25 +32,8 @@ class TagsClass {
     {
         $arr = [];
         foreach($this->query as $tag) {
-            $arr[] = new TagClass($tag);
+            $arr[] = new SingleTermClass($tag);
         }
         return $arr;
-    }
-}
-
-class TagClass {
-    public int $id;
-    public string $name;
-    public string $slug;
-    public string $description;
-    public int $count;
-
-    public function __construct(WP_Term $category)
-    {
-        $this->id = $category->term_taxonomy_id;
-        $this->name = $category->name;
-        $this->slug = $category->slug;
-        $this->description =$category->description;
-        $this->count = $category->count;
     }
 }
