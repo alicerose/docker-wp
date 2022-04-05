@@ -62,6 +62,12 @@ class SinglePostClass
     public array $tags;
 
     /**
+     * パーマリンク
+     * @var string|false|WP_Error
+     */
+    public string|false|WP_Error $url;
+
+    /**
      * @param WP_Post $post
      * @param $categories
      * @param $tags
@@ -75,6 +81,9 @@ class SinglePostClass
         $this->title = $post->post_title;
         $this->content = $post->post_content;
         $this->thumbnail = get_the_post_thumbnail_url($post->ID);
+
+        $this->url = get_permalink($this->id);
+
         $this->categories = $this->getTaxonomies($categories);
         $this->tags = $this->getTaxonomies($tags);
     }
