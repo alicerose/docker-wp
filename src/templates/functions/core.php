@@ -1,72 +1,51 @@
 <?php
 
-    /*-----------------------------------------------------------------------------------*/
-    /* 全体のカスタマイズ */
-    /*-----------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------*/
+/* 全体のカスタマイズ */
+/*-----------------------------------------------------------------------------------*/
 
-    /**
-     * ヘッダの不要項目削除
-     */
-    add_action( 'init', 'removeUnnecessaryHeader' );
+/**
+ * ヘッダ自動出力項目の削除
+ */
+function remove_unnecessary_header() {
+    // WPのバージョン表記削除
+    remove_action('wp_head','wp_generator');
 
-    /**
-     * 絵文字機能の削除
-     */
-    add_action( 'init', 'disableEmojis' );
+    // 編集用RSDリンクの削除
+    remove_action('wp_head', 'rsd_link');
 
-    /**
-     * クリックジャッキング対策
-     */
-    add_action( 'send_headers', 'send_frame_options_header', 10, 0 );
+    // Windows Live Writer編集用リンクの削除
+    remove_action('wp_head', 'wlwmanifest_link');
 
-    /**
-     * ファイルシステムの変更
-     */
-    add_filter( 'filesystem_method','modifyFileMethod' );
+    // RSSリンクの削除
+    remove_action('wp_head', 'feed_links');
+    remove_action('wp_head', 'feed_links_extra');
 
-    /*-----------------------------------------------------------------------------------*/
-    /* 関数 */
-    /*-----------------------------------------------------------------------------------*/
+    // 短縮URLの削除
+    remove_action('wp_head', 'wp_shortlink_wp_head');
 
-    /**
-     *
-     */
-    function removeUnnecessaryHeader() {
-        // WPのバージョン表記削除
-        remove_action('wp_head','wp_generator');
+    // ショートリンクの削除
+    remove_action('template_redirect','wp_shortlink_header', 11, 0);
+    remove_action('template_redirect', 'rest_output_link_header', 11, 0);
 
-        // 編集用RSDリンクの削除
-        remove_action('wp_head', 'rsd_link');
+    // WP-JSONリンクの削除
+    remove_action( 'wp_head','rest_output_link_wp_head');
 
-        // Windows Live Writer編集用リンクの削除
-        remove_action('wp_head', 'wlwmanifest_link');
+    // WP標準のCanonical削除
+    if(DISABLE_WP_CANONICAL) remove_action( 'wp_head', 'rel_canonical');
+}
+add_action( 'init', 'remove_unnecessary_header' );
 
-        // RSSリンクの削除
-        remove_action('wp_head', 'feed_links');
-        remove_action('wp_head', 'feed_links_extra');
-
-        // 短縮URLの削除
-        remove_action('wp_head', 'wp_shortlink_wp_head');
-    }
-
-    /**
-     *
-     */
-    function disableEmojis() {
-        remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
-        remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
-        remove_action( 'wp_print_styles', 'print_emoji_styles' );
-        remove_action( 'admin_print_styles', 'print_emoji_styles' );
-        remove_filter( 'the_content_feed', 'wp_staticize_emoji' );
-        remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );
-        remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
-    }
-
-    /**
-     * @param $args
-     * @return string
-     */
-    function modifyFileMethod($args): string
-    {
-        return 'direct';
-    }
+/**
+ * 絵文字用リソース読み込みの削除
+ */
+function disable_emojis() {
+    remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+    remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
+    remove_action( 'wp_print_styles', 'print_emoji_styles' );
+    remove_action( 'admin_print_styles', 'print_emoji_styles' );
+    remove_filter( 'the_content_feed', 'wp_staticize_emoji' );
+    remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );
+    remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
+}
+add_action( 'init', 'disable_emojis' );
