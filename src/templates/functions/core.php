@@ -49,3 +49,26 @@ function disable_emojis() {
     remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
 }
 add_action( 'init', 'disable_emojis' );
+
+/**
+ * Gitバージョンを返す
+ * 取得できない場合（docker環境など）はfalseを返す
+ * @param int $length 指定文字数で省略する
+ * @return array|bool|string
+ */
+function get_git_hash(int $length = -1): array|bool|string
+{
+    $versionFile = THEME_PATH . '/.version';
+    if(!file_exists($versionFile)) return false;
+
+    $data = fopen($versionFile,'r');
+    $version = str_replace("\n", '', fgets($data));
+    fclose($data);
+
+    if($length !== -1) {
+        return mb_strimwidth($version, 0, $length);
+    }
+
+    return $version;
+
+}
