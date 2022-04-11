@@ -30,15 +30,18 @@ add_action( 'admin_head', 'replace_admin_favicon' );
  * 管理画面の下部テキスト差し替え
  */
 function replace_admin_footer_text() {
-    $str = ENVIRONMENT . "環境";
+
+    $str = REPLACED_BOTTOM_MESSAGE;
 
     if(ENABLE_GIT_HASH_DISPLAY) {
+      $str = ENVIRONMENT . "環境";
       $hash = get_git_hash(8);
       if($hash) $str .= "({$hash})";
     }
+
     echo $str;
 }
-add_filter( 'admin_footer_text', 'replace_admin_footer_text' );
+if(REPLACE_BOTTOM_MESSAGE) add_filter( 'admin_footer_text', 'replace_admin_footer_text' );
 
 /**
  * ダッシュボード項目編集

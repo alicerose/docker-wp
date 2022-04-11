@@ -38,12 +38,12 @@ function disable_word_press_version_display(): string
 add_filter('the_generator', 'disable_word_press_version_display');
 
 /**
- * 非ログイン時の管理画面露軍画面リダイレクト停止
+ * 非ログイン時の管理画面ログイン画面リダイレクト停止
  * @return void
  */
 function remove_default_redirect()
 {
-    remove_action('template_redirect', 'wp_redirect_admin_locations', 1000);
+    if(DISABLE_ADMIN_REDIRECT) remove_action('template_redirect', 'wp_redirect_admin_locations', 1000);
 }
 add_action('init', 'remove_default_redirect');
 
@@ -54,7 +54,7 @@ add_action('init', 'remove_default_redirect');
  */
 function disable_redirect($scheme)
 {
-    if ( $user_id = wp_validate_auth_cookie( '',  $scheme) ) {
+    if ( !DISABLE_ADMIN_REDIRECT || $user_id = wp_validate_auth_cookie( '',  $scheme) ) {
         return $scheme;
     }
 

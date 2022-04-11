@@ -59,9 +59,10 @@ const CUSTOM_TAXONOMIES = [
 /*-----------------------------------------------------------------------------------*/
 
 /**
- * Gitハッシュを表示する
- * フロントはMetaタグでバージョンを追記
+ * 環境・Gitハッシュを表示する
+ * フロントはMetaタグでGitハッシュをバージョンとして追記
  * 管理画面はページ下部のフッタ文言に追加表示
+ * ローカル環境時はGitハッシュは表示しない
  */
 const ENABLE_GIT_HASH_DISPLAY = true;
 
@@ -98,6 +99,8 @@ const ASSET_FILES_STYLE = [
  * ファイルは/assets/js/配下にあるのを前提
  * 読み込みは記載順
  * 文字列でなく配列にし、第2引数にfalseを渡すとフッタでなくヘッダで読み込むようになる
+ * 'app', => フッタ読み込み
+ * ['app2', false], => ヘッダ読み込み（true渡すとフッタ読み込み）
  */
 const ASSET_FILES_SCRIPT = [
     'app',
@@ -115,6 +118,21 @@ const ENABLE_ASSET_VERSIONING_TIMESTAMP = true;
 /*-----------------------------------------------------------------------------------*/
 
 /**
+ * 管理画面左下の文言を差し替える
+ * false: デフォルト
+ * true:
+ *   ENABLE_GIT_HASH_DISPLAY　がtrue : Git・環境表示
+ *   ENABLE_GIT_HASH_DISPLAY　がfalse: REPLACED_BOTTOM_MESSAGE を表示
+ *
+ */
+const REPLACE_BOTTOM_MESSAGE = true;
+
+/**
+ * 差し替えて表示する文言
+ */
+const REPLACED_BOTTOM_MESSAGE = 'メッセージを入れてください';
+
+/**
  * ログイン画面・管理画面側のファビコンのURLを変更する
  * trueの場合、テーマディレクトリ直下の favicon.icoをヘッダに出力する
  */
@@ -129,3 +147,9 @@ const DISABLE_WP_COMMENT = true;
  * ログイン画面のロゴクリック時の遷移先をサイトトップに差し替える
  */
 const REPLACE_LOGIN_LOGO_PATH = true;
+
+/**
+ * 管理画面へアクセスしやすいようにする自動リダイレクトを停止する
+ * falseがWP標準、trueは明示的に管理画面ログインページのURLにアクセスする必要あり
+ */
+const DISABLE_ADMIN_REDIRECT = true;
