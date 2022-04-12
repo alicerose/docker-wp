@@ -113,9 +113,47 @@ const ASSET_FILES_SCRIPT = [
  */
 const ENABLE_ASSET_VERSIONING_TIMESTAMP = true;
 
+/**
+ * 検索対象をカスタム投稿タイプ・カスタムフィールドまで含めるように拡張する
+ */
+const EXPAND_SEARCH_RESULT = true;
+
 /*-----------------------------------------------------------------------------------*/
 /* 管理画面に影響のあるフラグ */
 /*-----------------------------------------------------------------------------------*/
+
+/**
+ * アイキャッチ機能（サムネイル）を有効にする
+ */
+const ENABLE_EYE_CATCH_IMAGE = true;
+
+/**
+ * メニュー機能を有効にする
+ * 配列を追加すると、位置を追加出来る
+ */
+const ENABLE_MENU = [
+    [
+        'id'    => 'global-menu',
+        'label' => 'メインメニュー'
+    ],
+    [
+        'id'    => 'sub-menu',
+        'label' => 'サブメニュー'
+    ],
+];
+
+/**
+ * 登録可能な画像サイズを追加する
+ */
+const ADD_IMAGE_SIZES = [
+    [
+        'name'   => 'OGP',
+        'width'  => 1200,
+        'height' => 620,
+        'crop'   => true,
+    ]
+];
+
 
 /**
  * 管理画面左下の文言を差し替える
@@ -140,6 +178,8 @@ const MODIFY_ADMIN_FAVICON = false;
 
 /**
  * 管理画面からコメントメニューを非表示にするか
+ * サイトにコメント欄がない場合はtrue推奨
+ * ページ自体は無効化されないので、直接アクセスは出来る
  */
 const DISABLE_WP_COMMENT = true;
 

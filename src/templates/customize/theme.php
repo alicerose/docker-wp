@@ -64,3 +64,79 @@ function asset_script($id, bool $in_footer = true) {
         $in_footer
     );
 }
+
+/**
+ * サムネイルの有効化
+ * @return void
+ */
+function enable_thumbnail () {
+    if(ENABLE_EYE_CATCH_IMAGE) add_theme_support('post-thumbnails');
+}
+add_action( 'init', 'enable_thumbnail');
+
+/**
+ * 画像サイズの追加拡張
+ * @return void
+ */
+function add_image_sizes () {
+    foreach(ADD_IMAGE_SIZES as $size) {
+        add_image_size($size['name'], $size['width'], $size['height'], $size['crop']);
+    }
+}
+add_action( 'init', 'add_image_sizes');
+
+/**
+ * メニュー機能を有効化する
+ * @return void
+ */
+function enable_menu () {
+    $args = [];
+    foreach(ENABLE_MENU as $menu) {
+        $args[$menu['id']] = $menu['label'];
+    }
+    register_nav_menus($args);
+}
+add_action( 'after_setup_theme', 'enable_menu' );
+
+/**
+ * 検索対象を拡張する
+ * @param $search
+ * @param $wp_query
+ * @return string
+ */
+function expand_search_result($search, $wp_query): string
+{
+    global $wpdb;
+
+    // 検索対象を操作しないケース
+    if (!$wp_query->is_search) return $search;
+    if (!isset($wp_query->query_vars)) return $search;
+    if (!EXPAND_SEARCH_RESULT) return $search;
+
+    $search_words = explode(' ', $wp_query->query_vars['s'] ?? '');
+    if ( count($search_words) > 0 ) {
+        $search = '';
+
+        /**
+         * 投稿タイプを対象に追加
+         */
+        $search .= "AND post_type = 'custom_post_type'";
+
+        foreach ( $search_words as $word ) {
+            if ( !empty($word) ) {
+                $search_word = '%' . esc_sql( $word ) . '%';
+                $search .= " AND (
+                        {$wpdb->posts}.post_title LIKE '{$search_word}'
+                        OR {$wpdb->posts}.post_content LIKE '{$search_word}'
+                        OR {$wpdb->posts}.ID IN (
+                        SELECT distinct post_id
+                        FROM {$wpdb->postmeta}
+                        WHERE meta_value LIKE '{$search_word}'
+                        )
+                    ) ";
+            }
+        }
+    }
+    return $search;
+}
+add_filter( 'posts_search', 'expand_search_result', 10, 2 );
