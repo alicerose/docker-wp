@@ -36,9 +36,9 @@ class Pager
     {
         $this->p = $p;
         $this->label = (string) $label;
-        $this->status = $enable ? '' : 'data-disabled'; // disabled属性はboolで切り分け出来ない
+        $this->status = $enable ? '' : 'data-disabled tabindex="-1"'; // disabled属性はboolで切り分け出来ない
         $this->current = $current ? 'data-current' : '';
-        $this->path = $this->path($p);
+        $this->path = $enable ? $this->path($p) : '#';
     }
 
     /**
