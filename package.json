@@ -6,7 +6,11 @@
   "scripts": {
     "dev": "webpack --mode development --watch",
     "build:develop": "webpack --mode development",
-    "build:production": "webpack --mode production"
+    "build:production": "webpack --mode production",
+    "docker:build": "docker-compose build --no-cache",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "error_log" : "tail -f .data/log/apache2/error.log"
   },
   "dependencies": {
     "@types/jquery": "^3.5.11",
