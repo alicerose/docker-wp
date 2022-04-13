@@ -17,6 +17,6 @@ include 'components/post.php';
 endforeach;
 
 $pagination = $Posts->pagination;
-include 'modules/Pagination.php';
+include 'components/Pagination.php';
 
 get_footer();

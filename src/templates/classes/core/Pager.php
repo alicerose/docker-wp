@@ -36,15 +36,25 @@ class Pager
     {
         $this->p = $p;
         $this->label = (string) $label;
-        $this->status = $enable ? '' : 'disabled'; // disabled属性はboolで切り分け出来ない
-        $this->current = $current ? 'true' : 'false';
+        $this->status = $enable ? '' : 'data-disabled'; // disabled属性はboolで切り分け出来ない
+        $this->current = $current ? 'data-current' : '';
         $this->path = $this->path($p);
     }
 
-    private function path($p): string
+    /**
+     * ページャのパス生成
+     * @param int $p
+     * @return string
+     */
+    private function path(int $p): string
     {
-        $path = '';
-        if($p !== 1) $path .= $p . '/';
+        $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $path = strpos($url, PAGER_PREFIX) ? strstr($url, PAGER_PREFIX, true) : $url;
+
+        if($p !== 1) {
+            $path .= mb_strlen(PAGER_PREFIX) ? PAGER_PREFIX . '/' . $p : $p;
+            $path .= '/';
+        }
 
         // 絞り込みなどのクエリストリングを付与する場合は加工する
         if(isset($_GET['category'])) $path .= '?category=' . $_GET['category'];

@@ -29,7 +29,7 @@ class Pagination {
      * 総ページ数
      * @var false|float
      */
-    private $total;
+    private false|float $total;
 
     /**
      * ページごとのクラス配列
