@@ -1,29 +1,32 @@
 <?php
 
-include_once('Pagination.php');
-include_once('SinglePost.php');
-include_once('Categories.php');
-include_once('Tags.php');
+include_once 'Pagination.php';
+include_once 'SinglePost.php';
+include_once 'Categories.php';
+include_once 'Tags.php';
 
 /**
  * 投稿取得基底クラス
  * カスタム投稿タイプの場合はこのクラスを継承する
  */
-class PostsClass
+class DefaultPostsClass
 {
     /**
-     * 投稿タイプ
+     * 投稿タイプ定数
      */
     const post_type = "post";
 
     /**
-     * カテゴリータクソノミー一覧
-     * カスタムタクソノミーが複数存在する場合は
+     * カテゴリータクソノミー一覧定数
+     *
+     * 対象タクソノミーが複数存在する場合は配列で指定
      */
     const taxonomies = ['category'];
 
     /**
      * タグタクソノミー一覧
+     *
+     * 対象タクソノミーが複数存在する場合は配列で指定
      */
     const tag_taxonomies = ['post_tag'];
 
@@ -32,6 +35,12 @@ class PostsClass
      * @var int
      */
     public int $page;
+
+    /**
+     * 投稿タイプ
+     * @var string
+     */
+    private string $post_type;
 
     /**
      * 1ページあたりの表示件数

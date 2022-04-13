@@ -76,10 +76,10 @@ class SinglePostClass
 
     /**
      * @param WP_Post $post
-     * @param $categories
-     * @param $tags
+     * @param array $categories
+     * @param array $tags
      */
-    public function __construct(WP_Post $post, $categories, $tags)
+    public function __construct(WP_Post $post, array $categories = [], array $tags = [])
     {
         $this->id = $post->ID;
         $this->date = date('Y.m.d', strtotime($post->post_date));
@@ -120,5 +120,14 @@ class SinglePostClass
     public function isPublished(): bool
     {
         return $this->status === 'publish';
+    }
+
+    /**
+     * 固定ページかどうか
+     * @return bool
+     */
+    public function isPage(): bool
+    {
+        return is_page();
     }
 }
