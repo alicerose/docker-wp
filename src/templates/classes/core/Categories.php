@@ -1,5 +1,7 @@
 <?php
 
+use JetBrains\PhpStorm\Pure;
+
 include_once 'SingleTerm.php';
 
 /**
@@ -7,28 +9,45 @@ include_once 'SingleTerm.php';
  */
 class CategoriesClass {
     /**
-     * @var null|string
+     * @var string
      */
-    private mixed $taxonomy;
+    private string $taxonomy;
 
     /**
-     * @var array|int[]|string|string[]|WP_Error|WP_Term[]
+     * @var int[]|string|string[]|WP_Error|WP_Term[]
      */
-    private array $raw;
+    private string|array|WP_Error $query;
 
-    public function __construct($taxonomy = 'category')
+    /**
+     * @var array
+     */
+    public array $terms;
+
+    /**
+     * @param string $taxonomy 対象タクソノミー名
+     * @param bool $empty 紐付いている記事が1件もないタームを除外するかどうか
+     */
+    public function __construct(string $taxonomy = 'category', bool $empty = true)
     {
         $this->taxonomy = $taxonomy;
-        $this->raw = get_terms($this->taxonomy);
+        $this->query = get_terms($this->taxonomy, [
+            'hide_empty' => $empty,
+            'orderby'    => 'id',
+        ]);
+
+        $this->terms = self::getTerms();
     }
 
-    public function list(): array
+    /**
+     * @return array
+     */
+    private function getTerms(): array
     {
-        $arr = [];
-        foreach($this->raw as $category) {
-            $arr[] = new SingleTermClass($category);
+        $terms = [];
+        foreach($this->query as $category) {
+            $terms[] = new SingleTermClass($category);
         }
 
-        return $arr;
+        return $terms;
     }
 }

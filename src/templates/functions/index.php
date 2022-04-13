@@ -1,5 +1,6 @@
 <?php
 
+include_once THEME_PATH . '/classes/core/DefaultPosts.php';
 include_once THEME_PATH . '/classes/core/SinglePost.php';
 
 /**
@@ -24,4 +25,30 @@ function getPostById(?int $id = null): SinglePostClass|null
         return null;
     }
     return new SinglePostClass($raw);
+}
+
+/**
+ * タクソノミースラッグから記事一覧を取得する
+ * @param $slug
+ * @param string $taxonomy
+ * @return DefaultPostsClass
+ */
+function getPostsByTermSlug($slug = null, string $taxonomy = 'category'): DefaultPostsClass
+{
+
+    if(!$slug) {
+        $terms = get_queried_object();
+        $slug = $terms->slug;
+    }
+
+    $args = [
+        'tax_query' => [
+            [
+                'taxonomy' => $taxonomy,
+                'field' => 'slug',
+                'terms' => $slug
+            ]
+        ]
+    ];
+    return new DefaultPostsClass(args_optional: $args);
 }

@@ -105,6 +105,7 @@ class SinglePostClass
         $arr = [];
         foreach($taxonomies as $taxonomy) {
             $terms = get_the_terms($this->id, $taxonomy);
+            if(!$terms) return $arr;
             foreach($terms as $term) {
                 $arr[] = new SingleTermClass($term);
             }

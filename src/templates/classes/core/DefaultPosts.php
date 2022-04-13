@@ -31,16 +31,16 @@ class DefaultPostsClass
     const tag_taxonomies = ['post_tag'];
 
     /**
-     * 現在ページ
-     * @var int
-     */
-    public int $page;
-
-    /**
      * 投稿タイプ
      * @var string
      */
     private string $post_type;
+
+    /**
+     * 現在ページ
+     * @var int
+     */
+    public int $page;
 
     /**
      * 1ページあたりの表示件数
@@ -96,10 +96,10 @@ class DefaultPostsClass
      */
     public Pagination $pagination;
 
-    public function __construct(int $page = 1, $per_page = null, $args_optional = [])
+    public function __construct(int $page = null, $per_page = null, $args_optional = [])
     {
-        $this->page = $page;
         $this->post_type = static::post_type;
+        $this->page = $page ?? $this->getCurrentPage();
         $this->per_page = $per_page ?? get_option('posts_per_page');
 
         $args = [
@@ -122,11 +122,33 @@ class DefaultPostsClass
         $this->pagination = new Pagination($this->count, $this->page, $this->per_page);
     }
 
+    /**
+     * 対象ページを取得
+     * 指定がなかった場合はURL上のクエリ→初期値1をセット
+     * @return int
+     */
+    private function getCurrentPage(): int
+    {
+        return max(
+            1,
+            get_query_var('paged') !== 0
+                ? get_query_var('paged')
+                : get_query_var('page'));
+    }
+
+    /**
+     * 1件以上公開されているかどうか
+     * @return bool
+     */
     public function hasPost(): bool
     {
         return $this->count > 0;
     }
 
+    /**
+     * 投稿一覧取得
+     * @return array
+     */
     private function getPosts(): array
     {
         $posts = [];
@@ -141,7 +163,7 @@ class DefaultPostsClass
         $categories = [];
         foreach(static::taxonomies as $taxonomy) {
             $cat = new CategoriesClass($taxonomy, false);
-            $categories[$taxonomy] = $cat->list();
+            $categories[$taxonomy] = $cat->terms;
         }
         return $categories;
     }
@@ -151,7 +173,7 @@ class DefaultPostsClass
         $tags = [];
         foreach(static::tag_taxonomies as $taxonomy) {
             $tag = new TagsClass($taxonomy);
-            $tags[$taxonomy] = $tag->list();
+            $tags[$taxonomy] = $tag->terms;
         }
 
         return $tags;
