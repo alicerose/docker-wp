@@ -140,3 +140,11 @@ function expand_search_result($search, $wp_query): string
     return $search;
 }
 add_filter( 'posts_search', 'expand_search_result', 10, 2 );
+
+/**
+ * リライトルール初期化
+ */
+if(ALWAYS_FLUSH_REWRITE_RULES) {
+    global $wp_rewrite;
+    $wp_rewrite->flush_rules();
+}

@@ -192,3 +192,10 @@ const REPLACE_LOGIN_LOGO_PATH = true;
  * falseがWP標準、trueは明示的に管理画面ログインページのURLにアクセスする必要あり
  */
 const DISABLE_ADMIN_REDIRECT = true;
+
+/**
+ * リライトルールを常時初期化する
+ * パフォーマンスに影響があるため、基本的に常時ONにするものではない
+ * ENVIRONMENTの値で切り分けるのが良さそう
+ */
+const ALWAYS_FLUSH_REWRITE_RULES = ENVIRONMENT === 'local-dev';
