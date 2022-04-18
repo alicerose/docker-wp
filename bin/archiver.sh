@@ -20,7 +20,7 @@ fi
 export $(cat ./.env.${1} | grep -v ^# | xargs);
 
 # アーカイブ名設定がされてなければ中断
-if [[ -z "$APP_DEPLOY_TARGET" ]]; then
+if [[ -z "$ZIP_NAME" ]]; then
   echo "${BGRED} ARCHIVER ${END} ${RED}ERROR:${END} archive name undefined, aborting."
   exit 0
 fi
