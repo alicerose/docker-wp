@@ -154,7 +154,6 @@ const ADD_IMAGE_SIZES = [
     ]
 ];
 
-
 /**
  * 管理画面左下の文言を差し替える
  * false: デフォルト
