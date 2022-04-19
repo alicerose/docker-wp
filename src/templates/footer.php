@@ -1,5 +1,5 @@
 <footer>
-    © hogehoge
+    <?= COPYRIGHT ?>
 </footer>
 <?php wp_footer(); ?>
 </body>

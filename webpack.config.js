@@ -128,6 +128,7 @@ const app = {
       'window.jQuery': 'jquery',
     }),
     new BrowserSyncPlugin({
+      open     : configs.server.open,
       proxy    : configs.server.proxy,
       files    : [configs.directories.src + '/scss/**/*.scss', configs.directories.src + '/ts/**/*.ts', configs.directories.src + '/templates/**/*.php' ],
       injectCss: true,

@@ -15,5 +15,9 @@ RUN mkdir /var/www/.wp-cli \
 # mailhog
 RUN curl --location --output /usr/local/bin/mhsendmail https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 && \
   chmod +x /usr/local/bin/mhsendmail
-
 RUN echo 'sendmail_path="/usr/local/bin/mhsendmail --smtp-addr=mailhog:1025 --from=admin@example.com"' > /usr/local/etc/php/conf.d/mailhog.ini
+
+# add common user
+RUN groupadd -g 61000 docker
+RUN useradd -g 61000 -l -m -s /bin/false -u 61000 docker
+USER docker

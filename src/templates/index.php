@@ -1,24 +1,22 @@
-<?php get_header(); ?>
-<?php if (have_posts()): ?>
-    <?php while (have_posts()):
-      the_post(); ?>
-        <article>
-            <div class="article-meta">
-                <div><?php the_date(); ?> <?php the_time(); ?></div>
-                <?php the_category(); ?>
-            </div>
-            <div class="article-title">
-                <h2>
-                    <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                </h2>
-            </div>
-            <div class="article-body">
-                <?php the_content(); ?>
-            </div>
-        </article>
-    <?php
-    endwhile; ?>
-<?php else: ?>
-    記事が1件も見つからなかったときの処理
-<?php endif; ?>
-<?php get_footer(); ?>
+<?php
+get_header();
+
+include_once 'classes/core/DefaultPosts.php';
+$Posts = new DefaultPostsClass();
+
+//echo '<pre class="var_dump">';
+//var_dump($Posts);
+//echo '</pre>';
+
+foreach($Posts->categories as $taxonomy):
+    include 'components/term.php';
+endforeach;
+
+foreach($Posts->posts as $post):
+include 'components/post.php';
+endforeach;
+
+$pagination = $Posts->pagination;
+include 'components/Pagination.php';
+
+get_footer();
