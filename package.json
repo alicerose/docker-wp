@@ -1,6 +1,6 @@
 {
-  "name": "docker-wp-frontend",
-  "version": "4.0.0",
+  "name": "docker-wp-template",
+  "version": "4.1.0",
   "description": "environment for wordpress template development",
   "main": "index.js",
   "scripts": {
