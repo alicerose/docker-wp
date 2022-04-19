@@ -4,7 +4,7 @@ services:
   db:
     image: mariadb
     volumes:
-      - ./.data/db:/var/lib/mysql:delegated
+      - db-volume:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: wordpress
       MYSQL_DATABASE: wordpress
@@ -21,7 +21,7 @@ services:
     env_file: .docker/app/.env
     volumes:
       - ./dist:/var/www/html/wp-content/themes/my-theme
-      - ./.data/app:/var/www/html:delegated
+      - ./.data/app:/var/www/html
       - ./.data/log:/var/log
     restart: always
     tty: true
@@ -44,3 +44,5 @@ services:
     ports:
       - "8025:8025"
       - "1025:1025"
+volumes:
+  db-volume:
