@@ -20,9 +20,10 @@ services:
     build: .docker/app
     env_file: .docker/app/.env
     volumes:
-      - ./dist:/var/www/html/wp-content/themes/my-theme
-      - ./.data/app:/var/www/html
-      - ./.data/log:/var/log
+      - app-volume:/var/www/html
+      - theme-volume:/var/www/html/wp-content/themes/my-theme
+      - ./.data/log:/var/log:delegated
+      - ./.htaccess:/var/www/html/.htaccess
     restart: always
     tty: true
     ports:
@@ -44,5 +45,24 @@ services:
     ports:
       - "8025:8025"
       - "1025:1025"
+
 volumes:
   db-volume:
+  app-volume:
+  theme-volume:
+
+x-mutagen:
+  sync:
+    defaults:
+      ignore:
+        vcs: true
+    source:
+      alpha: "./dist"
+      beta: "volume://theme-volume"
+      mode: "one-way-replica"
+      configurationBeta:
+        permissions:
+          defaultOwner: "id:33" # as www-data
+          defaultGroup: "id:33" # as www-data
+          defaultFileMode: 0666
+          defaultDirectoryMode: 0777
