@@ -26,7 +26,7 @@
 
 | ディレクトリ    | サブディレクトリ    | 用途            | 備考                                           |
 |:----------|:------------|:--------------|:---------------------------------------------|
-| `.data`   |             | 永続化用マウントデータ   | `.gitignore`済み                               |
+| `.data`   |             | 永続化用マウントデータ   | `.gitignore`済み<br>自動生成されなくなった                |
 | `.docker` |             | Docker用構成ファイル郡|                                              |
 | `bin`     |             | シェルスクリプト郡     | 要Envファイル設定                                   |
 | `dist`    |             | ビルド済みデータ      | `.gitignore済み`<br>Docker上へはこのディレクトリをマウントしている |
@@ -35,7 +35,31 @@
 | `src`     | `templates` | テンプレートファイル    |                                              |
 | `src`     | `ts`        | スクリプトファイル     | TypeScript                                   |
 
-## スクリプト
+## npmスクリプト
+
+| コマンド               | 用途              | 備考                         |
+|:-------------------|:----------------|:---------------------------|
+| `dev`              | npm開発環境起動       | localhost:8888をproxy       |
+| `build:develop`    | developビルド      ||
+| `build:production` | productionビルド   ||
+| `docker:build`     | dockerファイルビルド   ||
+| `docker:up`        | docker-compose起動 ||
+| `docker:down`      | docker-compose停止 ||
+| `mutagen:up`       | mutagen-compose起動 | 要mutagenインストール             |
+| `mutagen:down`     | mutagen-compose停止 | 要mutagenインストール             |
+| `convert-webp`     | webP変換スクリプト実行   | 要cwebpインストール               |
+| `deploy:develop`   | develop環境へのデプロイ | 要APP_URL、APP_DEPLOY_TARGET |
+| `archiver`         | distのアーカイブ化     | 要ZIP_NAME                  |
+| `error_log`        | エラーログをtail      ||
+
+### mutagen
+
+* MacにおいてDockerのボリュームが遅いのを代替する
+  * 概ねレスポンスが300%程度早い
+* 環境によってはあまり安定しない様子？
+* 導入については下記参照
+  * `brew install mutagen-io/mutagen/mutagen`
+  * https://mutagen.io/documentation/introduction/installation
 
 ### Convert WebP
 
@@ -67,8 +91,10 @@
 
 ## htaccess
 
-* `.data/app/.htaccess`に追記する
-* コンテナ初回起動時はWPインストール時に存在しない可能性があるため、パーマリンク設定の更新後に上記パスを確認
+* `.htaccess`をプロジェクトルートに作成
+* docker-composeファイルのコメントアウトを解除してマウントする
+* 同期したファイルに各自追記
+  * コンテナ初回起動時はWPインストール時に存在しない可能性があるため、パーマリンク設定の更新後に上記パスを確認
 
 |定義| 用途    | 備考                            |
 |:---|:------|:------------------------------|
