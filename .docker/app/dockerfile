@@ -18,6 +18,11 @@ RUN curl --location --output /usr/local/bin/mhsendmail https://github.com/mailho
 RUN echo 'sendmail_path="/usr/local/bin/mhsendmail --smtp-addr=mailhog:1025 --from=admin@example.com"' > /usr/local/etc/php/conf.d/mailhog.ini
 
 # add common user
-RUN groupadd -g 61000 docker
-RUN useradd -g 61000 -l -m -s /bin/false -u 61000 docker
-USER docker
+# RUN groupadd -g 61000 docker
+# RUN useradd -g 61000 -l -m -s /bin/false -u 61000 docker
+
+# switch user
+USER www-data
+
+# switch to bash
+SHELL ["/bin/bash", "-c"]
