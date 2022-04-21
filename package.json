@@ -10,12 +10,12 @@
     "docker:build": "docker-compose build --no-cache",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
-    "mutagen:up": "mutagen-compose up -d",
-    "mutagen:down": "mutagen-compose down",
+    "mutagen:up": "mutagen-compose -f docker-compose-mutagen.yaml up -d",
+    "mutagen:down": "mutagen-compose -f docker-compose-mutagen.yaml down",
     "convert-webp": "sh bin/convertWebP.sh && npm run build:develop",
     "deploy:develop": "sh bin/deploy.sh develop",
     "archiver": "sh bin/archiver.sh production",
-    "error_log" : "tail -f .data/log/apache2/error.log"
+    "error_log" : "tail -f .data/log/app/error.log"
   },
   "dependencies": {
     "@types/jquery": "^3.5.11",
