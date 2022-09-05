@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.9'
 
 services:
   db:
@@ -22,7 +22,11 @@ services:
     volumes:
       - app-volume:/var/www/html
       - ./dist:/var/www/html/wp-content/themes/my-theme
-      - ./.data/log:/var/log
+      - ./.docker/app/setup.sh:/var/www/html/setup.sh
+      - ./.data/log:/var/log/apache2:delegated
+      - ./.data/app/wp-includes:/var/www/html/wp-includes:delegated
+      - ./.data/app/wp-admin:/var/www/html/wp-admin:delegated
+      - ./.data/app/uploads:/var/www/html/wp-content/uploads:delegated
 #      - ./.htaccess:/var/www/html/.htaccess
     restart: always
     tty: true

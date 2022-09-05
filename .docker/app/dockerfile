@@ -3,6 +3,10 @@ FROM wordpress:php8.1-apache
 # custom php.ini
 COPY custom.ini $PHP_INI_DIR/conf.d/
 
+# add mysql module for wp-cli
+RUN apt-get update \
+    && apt-get install mariadb-client -y
+
 # WP-CLI
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 RUN chmod +x wp-cli.phar
