@@ -10,11 +10,11 @@ if ! wp core is-installed; then
   # === initialize config ===
   wp config create \
     --path=${WP_PATH} \
-    --dbname=${WP_DB_NAME} \
-    --dbuser=${WP_DB_USER} \
-    --dbpass=${WP_DB_PASS} \
-    --dbhost=${WP_DB_HOST} \
-    --dbprefix=${WP_DB_PREF} \
+    --dbname=${WORDPRESS_DB_NAME} \
+    --dbuser=${WORDPRESS_DB_USER} \
+    --dbpass=${WORDPRESS_DB_PASSWORD} \
+    --dbhost=${WORDPRESS_DB_HOST} \
+    --dbprefix=${WORDPRESS_TABLE_PREFIX} \
     --locale=ja
 
   # === install ===

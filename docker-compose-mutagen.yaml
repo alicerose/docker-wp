@@ -22,7 +22,7 @@ services:
     volumes:
       - app-volume:/var/www/html
       - theme-volume:/var/www/html/wp-content/themes/my-theme
-      - log-volume:/var/log
+      - ./.data/log:/var/log/apache2
 #      - ./.htaccess:/var/www/html/.htaccess
     restart: always
     tty: true
@@ -70,8 +70,4 @@ x-mutagen:
     appVolume:
       alpha: "volume://app-volume"
       beta: "./.data/app"
-      mode: "one-way-replica"
-    logVolume:
-      alpha: "volume://log-volume"
-      beta: "./.data/log"
       mode: "one-way-replica"

@@ -3,6 +3,8 @@ version: '3.9'
 services:
   db:
     image: mariadb
+    hostname: db-server
+    container_name: db-container
     volumes:
       - db-volume:/var/lib/mysql
     environment:
@@ -19,6 +21,8 @@ services:
       - db
     build: .docker/app
     env_file: .docker/app/.env
+    hostname: app-server
+    container_name: app-container
     volumes:
       - app-volume:/var/www/html
       - ./dist:/var/www/html/wp-content/themes/my-theme
