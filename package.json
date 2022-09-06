@@ -15,7 +15,8 @@
     "convert-webp": "sh bin/convertWebP.sh && npm run build:develop",
     "deploy:develop": "sh bin/deploy.sh develop",
     "archiver": "sh bin/archiver.sh production",
-    "error_log": "tail -f .data/log/app/error.log"
+    "error_log": "tail -f .data/log/app/error.log",
+    "initialize": "docker exec -it app-container sh setup.sh"
   },
   "dependencies": {
     "@types/jquery": "^3.5.11",
