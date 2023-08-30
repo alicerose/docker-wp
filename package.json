@@ -1,6 +1,6 @@
 {
   "name": "docker-wp-template",
-  "version": "4.2.0",
+  "version": "5.0.0",
   "description": "environment for wordpress template development",
   "main": "index.js",
   "scripts": {
@@ -62,6 +62,6 @@
     "webpack-dev-server": "^4.7.2"
   },
   "volta": {
-    "node": "16.17.0"
+    "node": "18.17.1"
   }
 }
