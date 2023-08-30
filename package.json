@@ -7,16 +7,15 @@
     "dev": "webpack --mode development --watch",
     "build:develop": "webpack --mode development",
     "build:production": "webpack --mode production",
-    "docker:build": "docker-compose build --no-cache",
-    "docker:up": "docker-compose up -d",
-    "docker:down": "docker-compose down",
-    "mutagen:up": "mutagen-compose -f docker-compose-mutagen.yaml up -d",
-    "mutagen:down": "mutagen-compose -f docker-compose-mutagen.yaml down",
+    "docker:build": "docker compose build --no-cache",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
     "convert-webp": "sh bin/convertWebP.sh && npm run build:develop",
     "deploy:develop": "sh bin/deploy.sh develop",
     "archiver": "sh bin/archiver.sh production",
     "error_log": "tail -f .data/log/app/error.log",
-    "initialize": "docker exec -it app-container sh setup.sh"
+    "wp:initialize": "docker exec -it app-container sh /var/www/bin/initialize.sh",
+    "wp:update": "docker exec -it app-container sh /var/www/bin/update.sh"
   },
   "dependencies": {
     "@types/jquery": "^3.5.11",
