@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-echo "Check WordPress install"
+echo "[WP-CLI] Check WordPress install..."
 
 # === check if installed ===
 if ! wp core is-installed; then
 
-  echo "Running initial setup."
+  echo "[WP-CLI] Wordpress not installed. Running initial setup."
 
   # === initialize config ===
   wp config create \
@@ -31,4 +31,11 @@ if ! wp core is-installed; then
   wp site switch-language ja
   wp language core update
 
+  # === plugins and other initial settings ===
+
+
+  echo "[WP-CLI] initail setup done."
+
+else
+  echo "[WP-CLI] abort, Wordpress already installed."
 fi

@@ -1,0 +1,90 @@
+services:
+  db:
+    image: mariadb
+    volumes:
+      - db-volume:/var/lib/mysql
+    env_file: ./.docker/.env
+    restart: always
+    ports:
+    - target: 3306
+      host_ip: 0.0.0.0
+      published: "3306"
+      mode: host
+
+  app:
+    build: .docker/app
+    env_file: .docker/.env
+    depends_on:
+      db:
+        condition: service_started
+        restart: true
+    container_name: app-container
+    ports:
+      - target: 80
+        host_ip: 0.0.0.0
+        published: "8888"
+        mode: host
+    volumes:
+      - app-volume:/var/www/html
+      - type: bind
+        source: .data/app/wp-includes
+        target: /var/www/html/wp-includes
+        bind:
+          create_host_path: true
+          propagation: slave
+      - type: bind
+        source: .data/app/wp-admin
+        target: /var/www/html/wp-admin
+        bind:
+          create_host_path: true
+          propagation: slave
+      - type: bind
+        source: .data/app/plugins
+        target: /var/www/html/wp-content/plugins
+        bind:
+          create_host_path: true
+          propagation: slave
+      - type: bind
+        source: .docker/app/update.sh
+        target: /var/www/bin/update.sh
+        bind:
+          create_host_path: true
+          propagation: shared
+      - type: bind
+        source: dist
+        target: /var/www/html/wp-content/themes/my-theme
+        bind:
+          create_host_path: true
+          propagation: shared
+
+
+  phpmyadmin:
+    image: arm64v8/phpmyadmin
+    depends_on:
+      db:
+        condition: service_started
+        restart: true
+    environment:
+      PMA_HOST: db
+    restart: always
+    ports:
+    - target: 80
+      host_ip: 0.0.0.0
+      published: "8081"
+      mode: host
+
+  mailhog:
+    image: jcalonso/mailhog
+    ports:
+      - target: 8025
+        host_ip: 0.0.0.0
+        published: "8025"
+        mode: host
+      - target: 1025
+        host_ip: 0.0.0.0
+        published: "1025"
+        mode: host
+
+volumes:
+  db-volume:
+  app-volume:
